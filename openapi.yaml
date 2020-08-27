@@ -1,0 +1,76 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: DNA Sequence Tool
+  license:
+    name: MIT
+servers:
+  - url: http://petstore.swagger.io/v1
+paths:
+  /sequences:
+    get:
+      summary: List all sequences
+      operationId: listSequences
+      tags:
+        - sequences
+      responses:
+        '200':
+          description: An array of sequences
+          content:
+            application/json:    
+              schema:
+                $ref: "#/components/schemas/Sequences"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a sequence
+      operationId: createSequences
+      tags:
+        - sequences
+      responses:
+        '201':
+          description: Null response
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Sequence:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - sequence
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        description:
+          type: string
+        sequence:
+          type: string
+    Sequences:
+      type: array
+      items:
+        $ref: "#/components/schemas/Sequence"
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
